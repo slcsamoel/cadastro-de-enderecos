@@ -4,6 +4,7 @@
 				<form class="search-form"  @submit.prevent="searchSubmit">
 					<input type="text" v-model="searchForm" placeholder="Buscar pelo CEP">
 					<input type="submit" value="Buscar">
+                    <input type="button" value="Limpar" @click="limparBuscar" >
 				</form>
 			</div>
 
@@ -100,36 +101,48 @@ import DeleteComponent from './components/DeleteComponent.vue';
 
             const searchSubmit = async () => {
 
-                axios.post('http://testes.my/api/search', {cep : searchForm})
+                if(searchForm.value == ''){
+                    return toast.error('Informe o CEP para a Buscar !',{
+                                            autoClose: 3000,
+                                        });
+                }
+
+
+                axios.post('http://testes.my/api/search', {cep : searchForm.value})
                         .then((response) => {
 
                             console.log(response);
 
-                                    // if(response.data.status =='success'){
+                                    if(response.data.status){
+                                        toast.error(response.data.message,{
+                                            autoClose: 3000,
+                                        })
+                                    }else{
+                                        enderecos.value = response.data;
+                                    }
 
-                                    //         getEnderecos();
-                                    // }
-
-                                    // toast.success("Error", {
-                                    //         autoClose: 3000,
-                                    //     })
 
                         })
                         .catch((error)=>{
                                 console.log(error)
-                                    // if(error.response.status === 422){
-                                    //     toast.error(error.response.data.message,{
-                                    //     autoClose: 3000,
-                                    //     })
-                                    // }else if(error.data.status =='error'){
+                                if(error.response.status === 422){
+                                    toast.error(error.response.data.message,{
+                                    autoClose: 3000,
+                                    })
+                                }else if(error.data.status =='error'){
 
-                                    //     toast.error('erro ao tenta cadastrar!',{
-                                    //         autoClose: 3000,
-                                    //     })
-                                    // }
+                                    toast.error('erro ao tenta Fazer a busca!',{
+                                        autoClose: 3000,
+                                    })
+                                }
 
                         })
 
+            }
+
+            const limparBuscar = () => {
+                    searchForm.value='';
+                    getEnderecos();
             }
 
 
@@ -170,7 +183,8 @@ import DeleteComponent from './components/DeleteComponent.vue';
                     closeModalCreated,
                     openModalDelete,
                     closeModalDelete,
-                    searchSubmit
+                    searchSubmit,
+                    limparBuscar
             };
 
 

@@ -120,11 +120,31 @@ class EnderecoController extends Controller
 
             $endereco = Endereco::where('cep', $request->cep)->get();
             if (count($endereco)>0){
-                return array_reverse($endereco);
+                return response()->json($endereco);
             } else {
                 $cepService = new  CepService();
                 $endereco =  $cepService->getEnderecoByCep($request->cep);
-                return response()->json($endereco);
+
+                if($endereco != null){
+                    //salvar no banco
+                    $newEndreco = new Endereco;
+                    $newEndreco->cep = $request->cep;
+                    $newEndreco->logradouro =   $endereco['logradouro'];
+                    $newEndreco->bairro = $endereco['bairro'];
+                    $newEndreco->cidade = $endereco['localidade'];
+                    $newEndreco->uf = $endereco['uf'];
+                    $newEndreco->save();
+
+                    $response = array(
+                        $newEndreco
+                    );
+
+                    return response()->json($response);
+
+                }else{
+                    return response()->json(['status'=> 'error' , 'messege' => 'O Cep não foi encontrado!']);
+                }
+
             }
 
      }

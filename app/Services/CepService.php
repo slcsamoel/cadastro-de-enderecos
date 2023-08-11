@@ -10,15 +10,27 @@ class CepService
 
     public function getEnderecoByCep($cep)
     {
-        $client = new Client();
-        $response = $client->get($this->baseUrl . $cep . '/json/');
+        $client = new Client([
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ]
+        ]);
 
-        dd($response);
+        try {
+            $response = $client->request('GET', $this->baseUrl . $cep . '/json/');
 
-        if ($response->getStatusCode() == 200) {
-            return json_decode($response->getBody(), true);
+            if ($response->getStatusCode() == 200) {
+                $content = $response->getBody();
+                return json_decode($content, true);
+            }
+
+        } catch (\Throwable $th) {
+
+            return null;
+
         }
 
-        return null;
+
+
     }
 }
