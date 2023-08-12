@@ -11,25 +11,26 @@
                         <form  @submit.prevent="submitForm">
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">CEP:</label>
-                                <input type="text" class="form-control" id="cep" v-model="data.cep">
+                                <input type="text" class="form-control" id="cep" maxlength="8" required="required" v-model="data.cep"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                >
                             </div>
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">Logradouro:</label>
-                                <input type="text" class="form-control" id="logradouro" v-model="data.logradouro">
+                                <input type="text" class="form-control" id="logradouro"  required="required" v-model="data.logradouro">
                             </div>
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">Bairro:</label>
-                                <input type="text" class="form-control" id="bairro" v-model="data.bairro">
+                                <input type="text" class="form-control" id="bairro"  required="required" v-model="data.bairro">
                             </div>
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">Cidade:</label>
-                                <input type="text" class="form-control" id="cidade" v-model="data.cidade">
+                                <input type="text" class="form-control" id="cidade"  required="required" v-model="data.cidade">
                             </div>
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">Estado:</label>
-                                <input type="text" class="form-control" id="uf" v-model="data.uf">
+                                <input type="text" class="form-control" id="uf"  maxlength="2" required="required" v-model="data.uf">
                             </div>
-
 
                         <!-- </div> -->
                             <div class="modal-footer">
@@ -59,7 +60,7 @@ import 'vue3-toastify/dist/index.css';
         setup(props, { emit }) {
 
             const submitForm = () =>{
-                axios.patch(`http://testes.my/api/enderecos/${props.data.id}`, props.data)
+                axios.patch(`http://127.0.0.1:8000/api/enderecos/${props.data.id}`, props.data)
                         .then((response) => {
                             console.log(response);
                                     if(response.data.status =='success'){

@@ -9,7 +9,7 @@
                     </div>
                         <div class="modal-footer">
                             <button  type="button" class="btn btn-secondary" @click="closeModalDelete">Fechar</button>
-                            <button type="button" class="btn btn-primary" @click="submitForm">Salvar</button>
+                            <button type="button" class="btn btn-primary" @click="submitForm">Deletar</button>
                         </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@ import 'vue3-toastify/dist/index.css';
         setup(props, { emit }) {
 
             const submitForm = () =>{
-                axios.delete(`http://testes.my/api/enderecos/${props.data.id}`)
+                axios.delete(`http://127.0.0.1:8000/api/enderecos/${props.data.id}`)
                         .then((response) => {
                             console.log(response);
                                     if(response.data.status =='success'){

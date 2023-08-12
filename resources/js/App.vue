@@ -2,9 +2,9 @@
         <div class="main">
             <div class="search">
 				<form class="search-form"  @submit.prevent="searchSubmit">
-					<input type="text" v-model="searchForm" placeholder="Buscar pelo CEP">
+					<input type="text" v-model="searchForm" max="8" required="required" placeholder="Buscar pelo CEP">
 					<input type="submit" value="Buscar">
-                    <input type="button" value="Limpar" @click="limparBuscar" >
+                    <input type="button" value="X" @click="limparBuscar" >
 				</form>
 			</div>
 
@@ -108,7 +108,7 @@ import DeleteComponent from './components/DeleteComponent.vue';
                 }
 
 
-                axios.post('http://testes.my/api/search', {cep : searchForm.value})
+                axios.post('http://127.0.0.1:8000/api/search', {cep : searchForm.value})
                         .then((response) => {
 
                             console.log(response);
@@ -147,7 +147,7 @@ import DeleteComponent from './components/DeleteComponent.vue';
 
 
             const getEnderecos = async () => {
-                axios.get('http://testes.my/api/enderecos')
+                axios.get('http://127.0.0.1:8000/api/enderecos')
                     .then((response) => {
 
                                 if(response.data){
