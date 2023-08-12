@@ -1,6 +1,7 @@
 
-## Aplicação para cadastro de cep 
-    É necessario ter o node versão 18 , php versão 8.1 instalado na maquina e todas as extensões necessarias para executar o framework laravel versão 9
+## Aplicação para cadastro de Endereços 
+    É necessario ter o node versão 18 
+    PHP versão 8.1 instalado na maquina e todas as extensões necessarias para executar o framework laravel versão 9
 
      1- clone o repositorio 
      2- composer install
